@@ -74,7 +74,7 @@ app.delete("/posts/:id", async(req, res)=>{
     try {
         const {id} = req.params
         const deleteposts = await pool.query("DELETE FROM posts WHERE id = $1", [id]);
-        res.json("post was deleted!")
+        res.json("post was deleted!");
     } catch (error) {
         console.log(error);
     }
