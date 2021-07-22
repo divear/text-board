@@ -17,9 +17,9 @@ app.post("/posts", async(req, res)=>{
     try {
         const respo = req.body
         console.log(respo);
-        console.log(respo.body);
+        console.log(respo[0].body);
         const newposts = await pool.query("INSERT INTO posts (body, username, ctime, likes) VALUES($1, $2, $3, $4) RETURNING *",
-         [respo.body, respo.username, new Date().toLocaleString(), respo.likes]);
+         [respo[0].body, respo[1].name, new Date().toLocaleString(), respo[2].likes]);
         console.log(newposts);
         res.json(newposts.rows[0])
     } catch (error) {
@@ -60,7 +60,7 @@ app.put("/posts/:id", async(req, res)=>{
         const respo = req.body
         console.log(respo);
 
-        const updateposts = await pool.query("UPDATE posts SET likes = $1 WHERE id = $2", [respo.likes, id]);
+        const updateposts = await pool.query("UPDATE posts SET likes = likes + 1 WHERE id = $1", [id]);
         
         res.json("post was updated")
     } catch (error) {
